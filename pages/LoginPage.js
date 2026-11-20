@@ -18,12 +18,14 @@ class LoginPage {
         await this.loginButton.click();
     }
 
+    // Waits briefly for the error banner, then returns its text ('' if none appears).
     async getErrorMessage() {
-        if (await this.errorMessage.isVisible()) {
-            return await this.errorMessage.innerText();
+        try {
+            await this.errorMessage.waitFor({ state: 'visible', timeout: 5000 });
+            return (await this.errorMessage.innerText()).trim();
+        } catch (error) {
+            return '';
         }
-
-        return '';
     }
 }
 
